@@ -61,7 +61,7 @@ class _UserNameWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Text(
       'UserName',
-      style: TextSgityle(
+      style: TextStyle(
         color: Colors.black,
         fontSize: 25,
         fontWeight: FontWeight.bold,
