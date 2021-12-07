@@ -7,7 +7,6 @@ class UserProfile extends StatelessWidget {
     MenuRowData(Icons.lock, 'Privacy'),
     MenuRowData(Icons.data_saver_off, 'Data and Storage'),
   ];
-
   final List<MenuRowData> secondMenuRow = [
     MenuRowData(Icons.computer, 'Active Session'),
     MenuRowData(Icons.person, 'Appearance'),
@@ -42,6 +41,13 @@ class UserProfile extends StatelessWidget {
   }
 }
 
+class MenuRowData {
+  final IconData icon;
+  final String text;
+
+  MenuRowData(this.icon, this.text);
+}
+
 class _MenuWidget extends StatelessWidget {
   final List<MenuRowData> menuRow;
   const _MenuWidget({
@@ -59,13 +65,6 @@ class _MenuWidget extends StatelessWidget {
       ),
     );
   }
-}
-
-class MenuRowData {
-  final IconData icon;
-  final String text;
-
-  MenuRowData(this.icon, this.text);
 }
 
 class _MenuRowWidget extends StatelessWidget {
