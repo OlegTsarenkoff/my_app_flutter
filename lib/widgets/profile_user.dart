@@ -19,22 +19,33 @@ class UserProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey,
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: const Text('Settings'),
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
       ),
-      body: SizedBox(
+      body: Container(
+        decoration: const BoxDecoration(
+            gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Colors.cyanAccent, Colors.purpleAccent, Colors.pink],
+        )),
         width: double.infinity,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            _UserInfo(),
-            SizedBox(height: 10),
-            _MenuWidget(menuRow: firstMenuRow),
-            SizedBox(height: 10),
-            _MenuWidget(menuRow: secondMenuRow),
-          ],
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const _UserInfo(),
+                const SizedBox(height: 10),
+                _MenuWidget(menuRow: firstMenuRow),
+                const SizedBox(height: 10),
+                _MenuWidget(menuRow: secondMenuRow),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -48,6 +59,7 @@ class MenuRowData {
   MenuRowData(this.icon, this.text);
 }
 
+//MenuBox
 class _MenuWidget extends StatelessWidget {
   final List<MenuRowData> menuRow;
   const _MenuWidget({
@@ -58,15 +70,21 @@ class _MenuWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.symmetric(horizontal: 8),
       width: double.infinity,
-      color: Colors.white,
-      child: Column(
-        children: menuRow.map((data) => _MenuRowWidget(data: data)).toList(),
+      child: Material(
+        clipBehavior: Clip.antiAlias,
+        borderRadius: BorderRadius.circular(30),
+        color: const Color.fromARGB(127, 255, 0, 127),
+        child: Column(
+          children: menuRow.map((data) => _MenuRowWidget(data: data)).toList(),
+        ),
       ),
     );
   }
 }
 
+//MenuRow
 class _MenuRowWidget extends StatelessWidget {
   final MenuRowData data;
 
@@ -77,37 +95,37 @@ class _MenuRowWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: InkWell(
-        onLongPress: () => Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => Scaffold(
-              appBar: AppBar(
-                title: Text('fqewfqwef'),
-              ),
-              body: const SizedBox.shrink(),
+    return InkWell(
+      onTap: () => Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => Scaffold(
+            appBar: AppBar(
+              title: Text('$data'),
             ),
+            body: const SizedBox.shrink(),
           ),
         ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Icon(data.icon),
-              SizedBox(width: 10),
-              Expanded(child: Text(data.text)),
-              Icon(Icons.chevron_right),
-            ],
-          ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Icon(data.icon),
+            SizedBox(width: 10),
+            Expanded(child: Text(data.text)),
+            Icon(
+              Icons.chevron_right,
+              color: Colors.white,
+            )
+          ],
         ),
       ),
     );
   }
 }
 
-//UserInfo
-
+//UserInfoBox
 class _UserInfo extends StatelessWidget {
   const _UserInfo({Key? key}) : super(key: key);
 
@@ -115,12 +133,12 @@ class _UserInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      color: Colors.white,
+      color: Colors.transparent,
       child: Column(
         children: const [
-          SizedBox(height: 20),
+          SizedBox(height: 16),
           _AvatarWidget(),
-          SizedBox(height: 10),
+          SizedBox(height: 8),
           _UserNameWidget(),
           SizedBox(height: 3),
           _UserPhoneNumber(),
@@ -133,6 +151,7 @@ class _UserInfo extends StatelessWidget {
   }
 }
 
+//UserNickname
 class _UserAccount extends StatelessWidget {
   const _UserAccount({
     Key? key,
@@ -140,10 +159,11 @@ class _UserAccount extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text('@user_account');
+    return const Text('@bulkin007');
   }
 }
 
+//UserPhonenumber
 class _UserPhoneNumber extends StatelessWidget {
   const _UserPhoneNumber({
     Key? key,
@@ -151,10 +171,11 @@ class _UserPhoneNumber extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text('user_phonenumber');
+    return const Text('+375 (29) 123-45-67');
   }
 }
 
+//UserName
 class _UserNameWidget extends StatelessWidget {
   const _UserNameWidget({
     Key? key,
@@ -163,9 +184,8 @@ class _UserNameWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Text(
-      'Митя Булкин',
+      'Mitya Bulkin',
       style: TextStyle(
-        color: Colors.black,
         fontSize: 25,
         fontWeight: FontWeight.bold,
       ),
@@ -173,6 +193,7 @@ class _UserNameWidget extends StatelessWidget {
   }
 }
 
+//UserAvatar
 class _AvatarWidget extends StatelessWidget {
   const _AvatarWidget({
     Key? key,
@@ -180,14 +201,17 @@ class _AvatarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 100,
-      height: 100,
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(16.0),
       child: Image.network(
-          'https://pbs.twimg.com/profile_images/2949489744/f02783142860b50d905a2e47ca099efc_400x400.jpeg'),
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYs4UR3jV93dfhX7ZzV0cxbNkyeu-pvgZG8A&usqp=CAU',
+          width: 100,
+          height: 100,
+          fit: BoxFit.fill),
     );
   }
 }
+
 
 
 
