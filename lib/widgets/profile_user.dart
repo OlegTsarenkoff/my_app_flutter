@@ -26,11 +26,12 @@ class UserProfile extends StatelessWidget {
         elevation: 0.0,
       ),
       body: Container(
+        height: double.infinity,
         decoration: const BoxDecoration(
             gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Colors.cyanAccent, Colors.purpleAccent, Colors.pink],
+          colors: [Colors.blue, Colors.lightBlue, Colors.white],
         )),
         width: double.infinity,
         child: SafeArea(
@@ -134,17 +135,24 @@ class _UserInfo extends StatelessWidget {
     return Container(
       width: double.infinity,
       color: Colors.transparent,
-      child: Column(
-        children: const [
-          SizedBox(height: 16),
-          _AvatarWidget(),
-          SizedBox(height: 8),
-          _UserNameWidget(),
-          SizedBox(height: 3),
-          _UserPhoneNumber(),
-          SizedBox(height: 3),
-          _UserAccount(),
-          SizedBox(height: 8),
+      child: Row(
+        children: [
+          const SizedBox(
+            width: 16,
+          ),
+          const _AvatarWidget(),
+          const SizedBox(
+            width: 20,
+          ),
+          Column(
+            children: const [
+              _UserNameWidget(),
+              SizedBox(height: 3),
+              _UserPhoneNumber(),
+              SizedBox(height: 3),
+              _UserAccount(),
+            ],
+          )
         ],
       ),
     );
@@ -202,7 +210,7 @@ class _AvatarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(16.0),
+      borderRadius: BorderRadius.circular(23.0),
       child: Image.network(
           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYs4UR3jV93dfhX7ZzV0cxbNkyeu-pvgZG8A&usqp=CAU',
           width: 100,
