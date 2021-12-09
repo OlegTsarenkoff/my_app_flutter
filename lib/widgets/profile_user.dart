@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 
-class UserProfile extends StatelessWidget {
+class UserProfile extends StatefulWidget {
+  UserProfile({Key? key}) : super(key: key);
+
+  @override
+  State<UserProfile> createState() => _UserProfileState();
+}
+
+class _UserProfileState extends State<UserProfile> {
   final List<MenuRowData> firstMenuRow = [
     MenuRowData(Icons.bookmark, 'Favorite'),
     MenuRowData(Icons.notification_add, 'Notifications'),
     MenuRowData(Icons.lock, 'Privacy'),
     MenuRowData(Icons.data_saver_off, 'Data and Storage'),
   ];
+
   final List<MenuRowData> secondMenuRow = [
     MenuRowData(Icons.computer, 'Active Session'),
     MenuRowData(Icons.person, 'Appearance'),
@@ -14,14 +22,15 @@ class UserProfile extends StatelessWidget {
     MenuRowData(Icons.emoji_emotions, 'Stikers'),
     MenuRowData(Icons.folder_open, 'Chat Folders'),
   ];
+
   final List<MenuRowData> thirdMenuRow = [
     MenuRowData(Icons.watch, 'Watch'),
   ];
+
   final List<MenuRowData> fourthMenuRow = [
     MenuRowData(Icons.help_center, 'Help Center'),
     MenuRowData(Icons.question_answer, 'Questions'),
   ];
-  UserProfile({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -178,9 +187,13 @@ class _UserInfo extends StatelessWidget {
                     children: [
                       TextButton(
                         style: ButtonStyle(
-                          foregroundColor:
-                              MaterialStateProperty.all(Colors.grey),
-                        ),
+                            foregroundColor:
+                                MaterialStateProperty.all(Colors.grey),
+                            shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                    side:
+                                        const BorderSide(color: Colors.grey)))),
                         onPressed: printLogButton,
                         child: const Text(
                           'Edit',
@@ -191,15 +204,19 @@ class _UserInfo extends StatelessWidget {
                       ),
                       OutlinedButton(
                         style: ButtonStyle(
-                          overlayColor: MaterialStateProperty.all(
-                              const Color.fromARGB(50, 255, 0, 0)),
-                          foregroundColor:
-                              MaterialStateProperty.all(Colors.redAccent),
-                        ),
+                            overlayColor: MaterialStateProperty.all(
+                                const Color.fromARGB(50, 255, 0, 0)),
+                            foregroundColor:
+                                MaterialStateProperty.all(Colors.redAccent),
+                            shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ))),
                         onPressed: printLogout,
                         child: const Text(
                           'Logout',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.bold),
                         ),
                       ),
                     ],
@@ -274,10 +291,6 @@ class _AvatarWidget extends StatelessWidget {
     );
   }
 }
-
-
-
-
 
 //InkWell
 //FormWidget
