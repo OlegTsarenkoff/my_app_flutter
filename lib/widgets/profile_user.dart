@@ -14,7 +14,14 @@ class UserProfile extends StatelessWidget {
     MenuRowData(Icons.emoji_emotions, 'Stikers'),
     MenuRowData(Icons.folder_open, 'Chat Folders'),
   ];
-  UserProfile();
+  final List<MenuRowData> thirdMenuRow = [
+    MenuRowData(Icons.watch, 'Watch'),
+  ];
+  final List<MenuRowData> fourthMenuRow = [
+    MenuRowData(Icons.help_center, 'Help Center'),
+    MenuRowData(Icons.question_answer, 'Questions'),
+  ];
+  UserProfile({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,24 +35,26 @@ class UserProfile extends StatelessWidget {
       body: Container(
         height: double.infinity,
         decoration: const BoxDecoration(
-            gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Colors.blue, Colors.lightBlue, Colors.white],
-        )),
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Colors.black, Colors.black, Colors.indigo],
+          ),
+        ),
         width: double.infinity,
         child: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                const _UserInfo(),
-                const SizedBox(height: 10),
-                _MenuWidget(menuRow: firstMenuRow),
-                const SizedBox(height: 10),
-                _MenuWidget(menuRow: secondMenuRow),
-              ],
-            ),
+          child: ListView(
+            children: [
+              const _UserInfo(),
+              const SizedBox(height: 10),
+              _MenuWidget(menuRow: firstMenuRow),
+              const SizedBox(height: 10),
+              _MenuWidget(menuRow: secondMenuRow),
+              const SizedBox(height: 10),
+              _MenuWidget(menuRow: thirdMenuRow),
+              const SizedBox(height: 10),
+              _MenuWidget(menuRow: fourthMenuRow),
+            ],
           ),
         ),
       ),
@@ -60,6 +69,14 @@ class MenuRowData {
   MenuRowData(this.icon, this.text);
 }
 
+void printLogButton() {
+  print('Edit');
+}
+
+void printLogout() {
+  print('Logout');
+}
+
 //MenuBox
 class _MenuWidget extends StatelessWidget {
   final List<MenuRowData> menuRow;
@@ -71,7 +88,7 @@ class _MenuWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 8),
+      margin: const EdgeInsets.symmetric(horizontal: 8),
       width: double.infinity,
       child: Material(
         clipBehavior: Clip.antiAlias,
@@ -101,7 +118,7 @@ class _MenuRowWidget extends StatelessWidget {
         MaterialPageRoute(
           builder: (context) => Scaffold(
             appBar: AppBar(
-              title: Text('$data'),
+              title: Text(data.text),
             ),
             body: const SizedBox.shrink(),
           ),
@@ -109,16 +126,20 @@ class _MenuRowWidget extends StatelessWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
+        child: Column(
           children: [
-            Icon(data.icon),
-            SizedBox(width: 10),
-            Expanded(child: Text(data.text)),
-            Icon(
-              Icons.chevron_right,
-              color: Colors.white,
-            )
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Icon(data.icon),
+                const SizedBox(width: 10),
+                Expanded(child: Text(data.text)),
+                const Icon(
+                  Icons.chevron_right,
+                  color: Colors.white,
+                ),
+              ],
+            ),
           ],
         ),
       ),
@@ -132,29 +153,63 @@ class _UserInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      color: Colors.transparent,
-      child: Row(
-        children: [
-          const SizedBox(
-            width: 16,
-          ),
-          const _AvatarWidget(),
-          const SizedBox(
-            width: 20,
-          ),
-          Column(
-            children: const [
-              _UserNameWidget(),
-              SizedBox(height: 3),
-              _UserPhoneNumber(),
-              SizedBox(height: 3),
-              _UserAccount(),
+    return Stack(
+      children: [
+        Container(
+          width: double.infinity,
+          color: Colors.transparent,
+          child: Row(
+            children: [
+              const SizedBox(
+                width: 16,
+              ),
+              const _AvatarWidget(),
+              const SizedBox(
+                width: 30,
+              ),
+              Column(
+                children: [
+                  const _UserNameWidget(),
+                  const SizedBox(height: 5),
+                  const _UserPhoneNumber(),
+                  const SizedBox(height: 3),
+                  const _UserAccount(),
+                  Row(
+                    children: [
+                      TextButton(
+                        style: ButtonStyle(
+                          foregroundColor:
+                              MaterialStateProperty.all(Colors.grey),
+                        ),
+                        onPressed: printLogButton,
+                        child: const Text(
+                          'Edit',
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      OutlinedButton(
+                        style: ButtonStyle(
+                          overlayColor: MaterialStateProperty.all(
+                              const Color.fromARGB(50, 255, 0, 0)),
+                          foregroundColor:
+                              MaterialStateProperty.all(Colors.redAccent),
+                        ),
+                        onPressed: printLogout,
+                        child: const Text(
+                          'Logout',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ],
-          )
-        ],
-      ),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -213,12 +268,13 @@ class _AvatarWidget extends StatelessWidget {
       borderRadius: BorderRadius.circular(23.0),
       child: Image.network(
           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYs4UR3jV93dfhX7ZzV0cxbNkyeu-pvgZG8A&usqp=CAU',
-          width: 100,
-          height: 100,
+          width: 120,
+          height: 120,
           fit: BoxFit.fill),
     );
   }
 }
+
 
 
 
