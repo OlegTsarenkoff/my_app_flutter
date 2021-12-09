@@ -1,3 +1,5 @@
+import 'dart:ui';
+import 'package:blur_bottom_bar/blur_bottom_bar.dart';
 import 'package:flutter/material.dart';
 
 class UserProfile extends StatefulWidget {
@@ -34,48 +36,82 @@ class _UserProfileState extends State<UserProfile> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        title: const Text('Settings'),
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
+    return Container(
+      height: double.infinity,
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Colors.indigo,
+            Colors.black,
+            Colors.black,
+            Colors.black,
+            Colors.indigo
+          ],
+        ),
       ),
-      body: Container(
-        height: double.infinity,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Colors.black, Colors.black, Colors.indigo],
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          flexibleSpace: ClipRect(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              child: Container(
+                color: Colors.transparent,
+              ),
+            ),
+          ),
+          title: const Text('Settings'),
+        ),
+        bottomNavigationBar: ClipRect(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(
+              sigmaX: 30,
+              sigmaY: 30,
+            ),
+            child: BottomNavigationBar(
+              backgroundColor: Colors.transparent,
+              unselectedItemColor: Colors.grey,
+              elevation: 0,
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  label: 'Home',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.message),
+                  label: 'Messages',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.settings),
+                  label: 'Settings',
+                ),
+              ],
+              currentIndex: 2,
+              selectedItemColor: Colors.white,
+            ),
           ),
         ),
-        width: double.infinity,
-        child: SafeArea(
-          child: ListView(
-            children: [
-              const _UserInfo(),
-              const SizedBox(height: 10),
-              _MenuWidget(menuRow: firstMenuRow),
-              const SizedBox(height: 10),
-              _MenuWidget(menuRow: secondMenuRow),
-              const SizedBox(height: 10),
-              _MenuWidget(menuRow: thirdMenuRow),
-              const SizedBox(height: 10),
-              _MenuWidget(menuRow: fourthMenuRow),
-            ],
-          ),
+        body: ListView(
+          children: [
+            const SizedBox(height: 10),
+            const _UserInfo(),
+            const SizedBox(height: 10),
+            _MenuWidget(menuRow: firstMenuRow),
+            const SizedBox(height: 10),
+            _MenuWidget(menuRow: secondMenuRow),
+            const SizedBox(height: 10),
+            _MenuWidget(menuRow: thirdMenuRow),
+            const SizedBox(height: 10),
+            _MenuWidget(menuRow: fourthMenuRow),
+          ],
         ),
       ),
     );
   }
-}
-
-class MenuRowData {
-  final IconData icon;
-  final String text;
-
-  MenuRowData(this.icon, this.text);
 }
 
 void printLogButton() {
@@ -109,6 +145,13 @@ class _MenuWidget extends StatelessWidget {
       ),
     );
   }
+}
+
+class MenuRowData {
+  final IconData icon;
+  final String text;
+
+  MenuRowData(this.icon, this.text);
 }
 
 //MenuRow
@@ -189,6 +232,8 @@ class _UserInfo extends StatelessWidget {
                         style: ButtonStyle(
                             foregroundColor:
                                 MaterialStateProperty.all(Colors.grey),
+                            overlayColor: MaterialStateProperty.all(
+                                const Color.fromARGB(100, 192, 192, 192)),
                             shape: MaterialStateProperty.all(
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(30),
@@ -205,7 +250,7 @@ class _UserInfo extends StatelessWidget {
                       OutlinedButton(
                         style: ButtonStyle(
                             overlayColor: MaterialStateProperty.all(
-                                const Color.fromARGB(50, 255, 0, 0)),
+                                const Color.fromARGB(100, 255, 0, 0)),
                             foregroundColor:
                                 MaterialStateProperty.all(Colors.redAccent),
                             shape: MaterialStateProperty.all(
@@ -264,7 +309,7 @@ class _UserNameWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Text(
-      'Mitya Bulkin',
+      'Vasia Bulkin',
       style: TextStyle(
         fontSize: 25,
         fontWeight: FontWeight.bold,
@@ -281,14 +326,20 @@ class _AvatarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(23.0),
-      child: Image.network(
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYs4UR3jV93dfhX7ZzV0cxbNkyeu-pvgZG8A&usqp=CAU',
-          width: 120,
-          height: 120,
-          fit: BoxFit.fill),
+    return const CircleAvatar(
+      radius: 60,
+      backgroundImage: NetworkImage(
+          'https://i.pinimg.com/280x280_RS/ce/29/0c/ce290c79566ab013f74965312c0fe01b.jpg'),
     );
+
+    // ClipRRect(
+    //   borderRadius: BorderRadius.circular(23.0),
+    //   child: Image.network(
+    //       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYs4UR3jV93dfhX7ZzV0cxbNkyeu-pvgZG8A&usqp=CAU',
+    //       width: 120,
+    //       height: 120,
+    //       fit: BoxFit.fill),
+    // );
   }
 }
 
